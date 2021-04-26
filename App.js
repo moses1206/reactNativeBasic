@@ -7,38 +7,53 @@
  */
 
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, Alert} from 'react-native';
-
-import Header from './source/Header';
-import Generator from './source/generator';
-import NumList from './source/numlist';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Alert,
+  ScrollView,
+  Button,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native';
+import PickerComponent from './source/picker';
 
 const App = () => {
-  const [appName, setAppName] = useState('My First App');
-  const [random, setRandom] = useState([36, 999]);
+  const [myTextInput, setMyTextInput] = useState('');
+  const [alphabet, setAlphabet] = useState(['a', 'b', 'c', 'd']);
 
-  const onAddRandomNumber = () => {
-    const randomNum = Math.floor(Math.random() * 100 + 1);
-    setRandom([...random, randomNum]);
+  const onAddTextInput = () => {
+    setAlphabet([...alphabet, myTextInput]);
+    setMyTextInput('');
   };
 
-  const onNumDelete = idx => {
-    const newArray = random.filter((num, index) => {
-      return idx != index;
-    });
-    setRandom(newArray);
+  const onInputChange = e => {
+    setMyTextInput(e);
   };
 
   return (
     <View style={styles.mainView}>
-      <Header name={appName} />
-      <View>
-        <Text style={styles.mainText} onPress={() => alert('Text Touch Event')}>
-          Hello World
-        </Text>
-      </View>
-      <Generator add={onAddRandomNumber} />
-      <NumList num={random} delete={onNumDelete} />
+      <PickerComponent />
+      {/* <TextInput
+        onChangeText={onInputChange}
+        style={styles.input}
+        value={myTextInput}
+        multiline={true}
+        maxLength={10}
+        autoCapitalize={'none'}
+        editable={true}
+      />
+      <Button title="Add Text Input" onPress={onAddTextInput} />
+      <ScrollView style={styles.sclv}>
+        {alphabet.map((item, index) => {
+          return (
+            <Text style={styles.txt} key={index}>
+              {item}
+            </Text>
+          );
+        })}
+      </ScrollView> */}
     </View>
   );
 };
@@ -67,6 +82,24 @@ const styles = StyleSheet.create({
     fontWeight: 'normal',
     color: 'red',
     padding: 20,
+  },
+  sclv: {
+    width: '100%',
+  },
+  input: {
+    width: '100%',
+    backgroundColor: '#cecece',
+    marginTop: 20,
+    fontSize: 25,
+    padding: 10,
+  },
+  txt: {
+    fontSize: 20,
+    padding: 10,
+    backgroundColor: 'pink',
+    marginTop: 20,
+    color: 'red',
+    justifyContent: 'center',
   },
 });
 
